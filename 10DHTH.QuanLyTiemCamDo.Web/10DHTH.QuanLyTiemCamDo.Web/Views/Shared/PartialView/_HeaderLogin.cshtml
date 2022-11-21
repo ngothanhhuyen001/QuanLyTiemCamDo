@@ -1,0 +1,26 @@
+﻿@using _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels
+@using _10DHTH.QuanLyTiemCamDo.Web.Helpers.Extensions
+@{
+    var userSession = Context.Session.Get<UserSession>("_authSession");
+}
+@if (userSession == null)
+{
+
+    <a class="flex-c-m trans-04 p-lr-25" asp-controller="Auth" asp-action="Login">
+        <i class="fa fa-user" aria-hidden="true" style=" margin-right: 6px;"></i>
+        Login
+    </a>
+    <a class="flex-c-m trans-04 p-lr-25"  asp-controller="Auth" asp-action="Register" >
+        SingUp
+    </a>
+}
+else
+{
+    <a href="~/Auth/MyAccount" class="flex-c-m trans-04 p-lr-25">
+        MyAccount
+    </a>
+    <a class="flex-c-m trans-04 p-lr-25" asp-controller="Auth" asp-action="Logout">
+        Logout
+    </a>
+
+}

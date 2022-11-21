@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>_10DHTH.QuanLyTiemCamDo.Service</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\10DHTH.QuanLyTiemCamDo.DataAccess\10DHTH.QuanLyTiemCamDo.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

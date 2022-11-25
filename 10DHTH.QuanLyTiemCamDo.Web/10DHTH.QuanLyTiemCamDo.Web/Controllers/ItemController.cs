@@ -1,10 +1,13 @@
 ﻿using _10DHTH.QuanLyTiemCamDo.DataAccess.Commons;
 using _10DHTH.QuanLyTiemCamDo.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 {
+
+    [Route("api/[controller]")]
     public class ItemController : Controller
     {
         private readonly IItemService _itemService;
@@ -12,13 +15,9 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
         {
             _itemService = itmehService;
         }
-        //public async Task<IActionResult> Index()
-        //{
-        //    ViewData["type"] = await _itemService.GetAllCategoryAsync();
-        //    return View();
-        //}
+        [Route("~/index")]
         [HttpGet]
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 2)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 4)
         {
 
             ViewData["type"] = await _itemService.GetAllCategoryAsync();
@@ -27,6 +26,15 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
             var users = await _itemService.GetPagingItems(pageRequest);
 
             return View(users);
+        }
+        [Route("~/detail")]
+        [HttpGet]
+        public async Task<IActionResult> DetailItem(int IdItem)
+        {
+            var result = await _itemService.DetailsItem(IdItem);
+            ////ViewBag.maloaisach = result.MaLoai;
+            return View(result);
+            
         }
     }
 }

@@ -77,7 +77,9 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
                 };
             }
         }
-        public async Task<ApiResult<object>> Register(LoginRequest userRequest)
+
+
+        public async Task<ApiResult<object>> Register(RegisterRequest userRequest)
         {
             var userDB = _context.Users.Where(t => t.Email.Equals(userRequest.Email)).FirstOrDefault();
             if (userDB != null)
@@ -92,6 +94,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
             var user = new User()
             {
                 Email = userRequest.Email,
+                IdRole=1,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
@@ -105,7 +108,8 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
                 Message = "Sign Up Success!",
                 Data = new
                 {
-                    Email = user.Email
+                    Email = user.Email,
+                    
                 }
             };
         }

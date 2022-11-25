@@ -14,7 +14,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Interfaces
     /// <returns></returns>
     public interface IApiAuthService
 	{
-        Task<ApiResult<object>> Register(LoginRequest user);
+        Task<ApiResult<object>> Register(RegisterRequest user);
         ApiResult<LoginResponse> Login(LoginRequest user);
         Task<ApiResult<object>> Logout(string refreshToken);
         Task<ApiResult<LoginResponse>> RefreshToken(string refreshTokenStr);

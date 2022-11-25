@@ -28,7 +28,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 
         [Route("register")]
         [HttpPost]
-        public async Task<IActionResult> Register(LoginRequest user)
+        public async Task<IActionResult> Register(RegisterRequest user)
         {
             var registerService = await _apiauthService.Register(user);
             return StatusCode(registerService.Code, registerService);

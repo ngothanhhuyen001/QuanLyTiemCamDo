@@ -3,6 +3,7 @@
 @model _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels.LoginRequest
 @{
     ViewData["title"] = "Login";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 	if (Context.Session.Get<UserSession>("_authSession") != null)
 	{
 		Context.Response.Redirect("/index");
@@ -11,45 +12,35 @@
 <!-- Content page -->
 <section class="bg0 p-t-50 p-b-116">
 	<div class="container">
-			
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md" style="margin: auto;">
+					<h4 class="mtext-105 cl2 txt-center p-b-30">
+						ĐĂNG NHẬP
+					</h4>
+            
 			@using (Html.BeginForm("Login", "Auth", FormMethod.Post))
 			{
-				<h4 class="mtext-105 cl2 txt-center p-b-30">
-			LOGIN
-						</h4>
 				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-				<div class="bor8 m-b-20 how-pos4-parent">
-
-					@Html.TextBoxFor(model => model.Email, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Your Email Address" })
+				<div class="input-group">
+					<span class="input-group-text">	<i class="fa fa-user-o" aria-hidden="true"></i></span>
+					@Html.TextBoxFor(model => model.Email, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Tên đăng nhập" })
 				</div>
-
 				<div style="margin-bottom: 25px;padding-left:7%" class="input-group">
 
 					@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+				</div>				 
+				<div class="input-group">
+					<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+					@Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Mật Khẩu" })
 				</div>
 
-				<div class="bor8 m-b-20 how-pos4-parent">
-
-					@Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password" })
-
-				</div>
-				<div style="margin-bottom: 25px;padding-left:7%" class="input-group">
-
+				<div style="margin-bottom:25px;padding-left:7%" class="input-group">
 					@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 				</div>
-
-
 				<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
-					Submit
+					Đăng Nhập
 				</button>
 
 			}
-		</div>
+			</div>
 	</div>
 </section>
-
-
-
-	

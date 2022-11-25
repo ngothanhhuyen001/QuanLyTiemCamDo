@@ -1,55 +1,69 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @using _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels
 @using _10DHTH.QuanLyTiemCamDo.Web.Helpers.Extensions
-@model _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels.LoginRequest
-
-<!-- Content page -->
+@model _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels.RegisterRequest
 <section class="bg0 p-t-50 p-b-116">
-	<div class="container">
+    <div class="container">
+        <div class="flex-w flex-tr">
+            <div class=" bor10 p-lr-50 p-t-0 p-b-70 p-lr-15-lg  w-full-md">
+                <h4 class="mtext-105 cl2 txt-center  p-t-30 p-b-30">
+                     ĐĂNG KÝ TÀI KHOẢN
+                </h4>
+                @using (Html.BeginForm("Register", "Auth", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-		<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md" style="margin: auto;">
-			@using (Html.BeginForm("Register", "Auth", FormMethod.Post))
-			{
-				<h4 class="mtext-105 cl2 txt-center p-b-30">
-					REGISTER
-				</h4>
-				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-				<div class="bor8 m-b-20 how-pos4-parent">
-
-					@Html.TextBoxFor(model => model.Email, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Your Email Address" })
-				</div>
-
-				<div style="margin-bottom: 25px;padding-left:7%" class="input-group">
-
-					@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-				</div>
-
-				<div class="bor8 m-b-20 how-pos4-parent">
-
-					@Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password" })
-
-				</div>
-				<div style="margin-bottom: 25px;padding-left:7%" class="input-group">
-
-					@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-				</div>
-
-
-				<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
-					Submit
-				</button>
-
-			}
-		</div>
-	</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset class="form-group">
+                                <label style="display: inline-block; max-width: 100%;    margin-bottom: 5px;    font-weight: 700;"> Tên Khách Hàng:</label>
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeHolder = "" })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset class="form-group">
+                                <label style="display: inline-block; max-width: 100%;    margin-bottom: 5px;    font-weight: 700;"> Email:</label>
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeHolder = "Example@gmail.com" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset class="form-group">
+                                <label style="display: inline-block; max-width: 100%;    margin-bottom: 5px;    font-weight: 700;"> SDT:</label>
+                                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", placeHolder = "" })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset class="form-group">
+                                <label style="display: inline-block; max-width: 100%;    margin-bottom: 5px;    font-weight: 700;"> Dia Chi:</label>
+                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", placeHolder = "" })
+                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset class="form-group">
+                                <label style="display: inline-block; max-width: 100%;    margin-bottom: 5px;    font-weight: 700;"> Mật Khẩu:</label>
+                                @Html.PasswordFor(model => model.Email, new { @class = "form-control", placeHolder = "", ValueType = "PassWord" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </fieldset>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-12" style="margin-left: 40%;">
+                            <button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" style="width:22%">
+                               Đăng Ký
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </section>
-
-
-
-

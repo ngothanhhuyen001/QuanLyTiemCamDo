@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using _10DHTH.QuanLyTiemCamDo.Web.Helpers.Extensions;
 using _10DHTH.QuanLyTiemCamDo.Service.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 
 namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 {
 
     [Route("api/[controller]")]
-    [ApiController]
+    //[ApiController]
     public class AuthController : Controller
     {
         private readonly IApiAuthService _apiAuthService;
@@ -30,6 +29,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([FromForm] LoginRequest user)
         {
+
             if (ModelState.IsValid)
             {
                 var loginService = _apiAuthService.Login(user);
@@ -53,7 +53,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
             return View();
 
         }
-        [Route("~/logout")]
+       [Route("~/logout")]
         public async Task<IActionResult> Logout()
         {
             var refreshTokenStr = Request.Headers["refreshToken"];
@@ -73,7 +73,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
         [Route("~/register")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] LoginRequest user)
+        public async Task<IActionResult> Register([FromForm] RegisterRequest user)
         {
             if (ModelState.IsValid)
             {

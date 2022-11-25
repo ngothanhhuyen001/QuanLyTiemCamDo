@@ -1,6 +1,8 @@
 ﻿using _10DHTH.QuanLyTiemCamDo.DataAccess.Models;
+using _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels;
 using _10DHTH.QuanLyTiemCamDo.Service.Interfaces;
 using _10DHTH.QuanLyTiemCamDo.Service.Services;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +16,12 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Configure
         
             services.AddScoped<IApiAuthService, ApiAuthService>();
             services.AddScoped<IItemService, ItemService>();
+
+
+            //DI
+
+            //DI
+
 
 
 

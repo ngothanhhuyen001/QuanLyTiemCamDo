@@ -9,6 +9,7 @@ using System.Xml.Linq;
 namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class ApiItemController : Controller
     {
         private readonly IItemService _itemService;
@@ -27,8 +28,8 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 
         }
         // GET: api/ApiItem/GetItemByIdType/5
-        [Route("GetItemByIdType")]
-        [HttpGet("{id:int}")]
+      
+        [HttpGet]
         public async Task<IActionResult> GetItemByIdType(int id)
         {
             var items = await _itemService.GetItemByIdTypeAsync(id);
@@ -45,11 +46,11 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
         }
 
         // GET: api/ApiItem/DetailItem/5
-        [Route("DetailItem")]
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> DetailItem(int id)
+        [Route("DetailItem/{mats:int}")]
+        [HttpGet]
+        public async Task<IActionResult> DetailItem(int mats)
         {
-            var items = await _itemService.DetailsItem(id);
+            var items = await _itemService.DetailsItemAsync(mats);
             return StatusCode(items.Code, items);
         }
     }

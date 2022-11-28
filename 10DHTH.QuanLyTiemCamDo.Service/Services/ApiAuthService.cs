@@ -26,19 +26,19 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
     {
         private readonly QuanLyTiemCamDoContext _context;
         private readonly IConfiguration _configuration;
-        
+
         public ApiAuthService(QuanLyTiemCamDoContext context, IConfiguration configuration)
         {
             _configuration = configuration;
             _context = context;
         }
 
-        public ApiResult<LoginResponse> Login(LoginRequest user)
+        public ResultObject<LoginResponse> Login(LoginRequest user)
         {
-            var userDB = _context.Users.Where(t => t.Email.Equals(user.Email)).FirstOrDefault();
+            var userDB = _context.KhachHangs.Where(t => t.Email.Equals(user.Email)).FirstOrDefault();
             if (userDB == null)
             {
-                return new ApiResult<LoginResponse>
+                return new ResultObject<LoginResponse>
                 {
                     Code = 404,
                     Message = "Email does not exist!",
@@ -46,19 +46,19 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
             }
             else
             {
-                if (VerifyPasswordHash(user.Password, userDB.PasswordHash, userDB.PasswordSalt))
+                if (VerifyPasswordHash(user.Password, userDB.Mkhash, userDB.Mksalt))
                 {
-                    var token = CreateToken(userDB.IdUser);
-                    var refreshToken = GenerateRefreshToken(userDB.IdUser);
+                    var token = CreateToken(userDB.MaKh);
+                    var refreshToken = GenerateRefreshToken(userDB.MaKh);
 
                     _context.RefreshTokens.Add(refreshToken);
                     _context.SaveChanges();
                     var cookieOptions = new CookieOptions
                     {
                         HttpOnly = true,
-                        Expires = refreshToken.Expires
+                        Expires = refreshToken.NgayHetHan
                     };
-                    return new ApiResult<LoginResponse>
+                    return new ResultObject<LoginResponse>
                     {
                         Code = 200,
                         Data = new LoginResponse
@@ -70,7 +70,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
                         Message = "Login Success!",
                     };
                 }
-                return new ApiResult<LoginResponse>
+                return new ResultObject<LoginResponse>
                 {
                     Code = 401,
                     Message = "Incorrect password!",
@@ -79,11 +79,11 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
         }
 
 
-        public async Task<ApiResult<object>> Register(RegisterRequest userRequest)
+        public async Task<ResultObject<object>> Register(RegisterRequest userRequest)
         {
-            var userDB = _context.Users.Where(t => t.Email.Equals(userRequest.Email)).FirstOrDefault();
+            var userDB = _context.KhachHangs.Where(t => t.Email.Equals(userRequest.Email)).FirstOrDefault();
             if (userDB != null)
-                return new ApiResult<object>()
+                return new ResultObject<object>()
                 {
                     Code = 200,
                     Message = "Email already exists!",
@@ -91,34 +91,33 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
 
             CreatePasswordHash(userRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            var user = new User()
+            var user = new KhachHang()
             {
                 Email = userRequest.Email,
-                IdRole=1,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                Mkhash = passwordHash,
+                Mksalt = passwordSalt
             };
 
-            await _context.Users.AddAsync(user);
+            await _context.KhachHangs.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return new ApiResult<object>()
+            return new ResultObject<object>()
             {
                 Code = 200,
                 Message = "Sign Up Success!",
                 Data = new
                 {
                     Email = user.Email,
-                    
+
                 }
             };
         }
-        public async Task<ApiResult<object>> Logout(string refreshToken)
+        public async Task<ResultObject<object>> Logout(string refreshToken)
         {
 
             if (refreshToken == null)
             {
-                return new ApiResult<object>
+                return new ResultObject<object>
                 {
                     Code = 401,
                     Message = "Unauthorized",
@@ -132,13 +131,13 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
 
             if (refreshTokenDB != null)
             {
-                int id = refreshTokenDB.Id;
+                int id = refreshTokenDB.MaToken;
 
                 //Remove Token old
                 _context.RefreshTokens.Remove(refreshTokenDB);
                 await _context.SaveChangesAsync();
 
-                return new ApiResult<object>
+                return new ResultObject<object>
                 {
                     Code = 200,
                     Message = "Logout successful",
@@ -146,7 +145,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
             }
             else
             {
-                return new ApiResult<object>
+                return new ResultObject<object>
                 {
                     Code = 403,
                     Message = "Forbidden",
@@ -156,15 +155,15 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
         #region Token
         public string CreateToken(int userId)
         {
-            List<Claim> claims = claimsRoles(userId);
+
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
-           
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
-                claims: claims,
+
                 expires: DateTime.Now.AddSeconds(60),
                 signingCredentials: creds);
 
@@ -172,29 +171,11 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
 
             return jwt;
         }
-
-        public List<Claim> claimsRoles(int userId)
-        {
-            List<Claim> claims = new List<Claim>();
-
-            var roles = _context.Users.Where(t => t.IdUser == userId).Include(t => t.IdRoleNavigation).ToList();
-
-            if (roles != null)
-            {
-                foreach (var role in roles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, role.IdRoleNavigation.Name));
-                }
-            }
-            claims.Add(new Claim(ClaimTypes.Name, "_UHAIHSA002"));
-            return claims;
-        }
-
-        public async Task<ApiResult<LoginResponse>> RefreshToken(string refreshToken)
+        public async Task<ResultObject<LoginResponse>> RefreshToken(string refreshToken)
         {
             if (refreshToken == null)
             {
-                return new ApiResult<LoginResponse>
+                return new ResultObject<LoginResponse>
                 {
                     Code = 401,
                     Message = "Unauthorized",
@@ -208,17 +189,17 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
 
             if (refreshTokenDB != null)
             {
-                int id = refreshTokenDB.Id;
+                int id = refreshTokenDB.MaToken;
 
                 //Remove Token old
                 _context.RefreshTokens.Remove(refreshTokenDB);
                 await _context.SaveChangesAsync();
 
                 //Create Token
-                string newToken = CreateToken((int)refreshTokenDB.IdUser);
+                string newToken = CreateToken((int)refreshTokenDB.MaKh);
 
                 //GenerateRefreshToken
-                var generateRefreshToken = GenerateRefreshToken((int)refreshTokenDB.IdUser);
+                var generateRefreshToken = GenerateRefreshToken((int)refreshTokenDB.MaKh);
 
                 //Save token in db
                 await SaveRefreshToken(generateRefreshToken);
@@ -227,10 +208,10 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Expires = generateRefreshToken.Expires
+                    Expires = generateRefreshToken.NgayHetHan
                 };
 
-                return new ApiResult<LoginResponse>
+                return new ResultObject<LoginResponse>
                 {
                     Code = 200,
                     Data = new LoginResponse
@@ -243,7 +224,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
             }
             else
             {
-                return new ApiResult<LoginResponse>
+                return new ResultObject<LoginResponse>
                 {
                     Code = 403,
                     Message = "Forbidden",
@@ -264,9 +245,9 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
                 var refreshToken = new RefreshToken
                 {
                     Token = Convert.ToBase64String(randomBytes),
-                    Expires = DateTime.Now.AddDays(7),
-                    Created = DateTime.Now,
-                    IdUser = userId
+                    NgayHetHan = DateTime.Now.AddDays(7),
+                    NgayTao = DateTime.Now,
+                    MaKh = userId
                 };
                 return refreshToken;
             }

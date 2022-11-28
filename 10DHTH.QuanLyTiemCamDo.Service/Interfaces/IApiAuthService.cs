@@ -14,10 +14,10 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Interfaces
     /// <returns></returns>
     public interface IApiAuthService
 	{
-        Task<ApiResult<object>> Register(RegisterRequest user);
-        ApiResult<LoginResponse> Login(LoginRequest user);
-        Task<ApiResult<object>> Logout(string refreshToken);
-        Task<ApiResult<LoginResponse>> RefreshToken(string refreshTokenStr);
+        Task<ResultObject<object>> Register(RegisterRequest user);
+        ResultObject<LoginResponse> Login(LoginRequest user);
+        Task<ResultObject<object>> Logout(string refreshToken);
+        Task<ResultObject<LoginResponse>> RefreshToken(string refreshTokenStr);
         string CreateToken(int userId);
         RefreshToken GenerateRefreshToken(int userId);
         void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);

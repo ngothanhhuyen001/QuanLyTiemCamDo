@@ -1,6 +1,6 @@
 ﻿
 @using _10DHTH.QuanLyTiemCamDo.DataAccess.Models;
-@model _10DHTH.QuanLyTiemCamDo.DataAccess.Commons.PagedResult<Item>
+@model _10DHTH.QuanLyTiemCamDo.DataAccess.Commons.PagedResult<TaiSan>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,8 +15,8 @@
                 </button>
                 @foreach (var item in ViewData["type"] as List<_10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels.TypeViewModel>)
                 {
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-15 m-tb-5" data-filter=".@item.IdType">
-                       @item.Name
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-15 m-tb-5" data-filter=".@item.MaLoai">
+                       @item.TenLoai
                     </button>
                 }
             </div>
@@ -45,21 +45,21 @@
             @foreach (var item in Model.Items)
             {
                     <!-- Block2 -->
-                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item @item.IdType">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item @item.MaLoai">
                     <div class="block2">
                         <div class="block2-pic hov-img0">
-                            <img src="~/items/@item.Img" alt="IMG-PRODUCT">
-                            <a asp-controller="Item" asp-action="DetailItem" asp-route-IdItem="@item.IdItem" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+                            <img src="~/images/Items/@item.HinhAnh" alt="IMG-PRODUCT">
+                            <a asp-controller="Item" asp-action="DetailItem" asp-route-IdItem="@item.MaTaiSan" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
                                 Quick View
                             </a>
                         </div>
                         <div class="block2-txt flex-w flex-t p-t-14">
                             <div class="block2-txt-child1 flex-col-l ">
                                 <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                    @item.Name
+                                    @item.TenTaiSan
                                 </a>
                                 <span class="stext-105 cl3">
-                                  @item.Price
+                                  @item.GiaBan
                                 </span>
                             </div>
                         </div>

@@ -7,7 +7,7 @@ namespace _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels
 	public class TypeViewModel
 	{
 
-        public int IdType { get; set; }
-        public string Name { get; set; }
+        public int MaLoai { get; set; }
+        public string TenLoai { get; set; }
     }
 }

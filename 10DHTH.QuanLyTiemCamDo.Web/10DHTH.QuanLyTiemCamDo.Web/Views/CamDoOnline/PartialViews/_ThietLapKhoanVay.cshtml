@@ -1,0 +1,75 @@
+﻿@model string
+
+<div class="content clearfix" style="width: 100%;">
+    <section id="step-by-step-p-0" role="tabpanel" aria-labelledby="step-by-step-h-0" class="body" aria-hidden="false" style="left: 0px; display: block; height:550px">
+        <div class="heading">
+            <h3 class="step-title"> 1. Thiết lập khoản vay cầm đồ</h3>
+        </div>
+        <div class="ct">
+            <div class="row">
+                <div class="col-md-3">Bạn muốn vay bao nhiêu ?</div>
+                <div class="col-md-6" style="margin-top: 10px;">
+                    <div id="slider-range-max"></div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input type="text" id="amount" name="value_money" class="form-control valid" value="" required="" readonly="">
+                        <span class="input-group-addon">VNĐ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <p class="thep">Tài sản thế chấp:</p>
+                        <select id="category" name="category" class="form-control valid" required=""><option value="Ô tô">Ô tô</option><option value="Xe máy">Xe máy</option><option value="Điện thoại">Điện thoại</option></select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <p for="" class="thep">Thương Hiệu:</p>
+                        <input type="text" class="form-control valid" id="manufacture" name="manufacture" placeholder="" required="">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <p for="" class="thep">Năm sản xuất:</p>
+                        <select id="production_date" name="production_date" class="form-control valid" required=""><option value="2000">2000</option><option value="2001">2001</option><option value="2002">2002</option><option value="2003">2003</option><option value="2004">2004</option><option value="2005">2005</option><option value="2006">2006</option><option value="2007">2007</option><option value="2008">2008</option><option value="2009">2009</option><option value="2010">2010</option><option value="2011">2011</option><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="form-group">
+                        <p for="" class="thep">Hình ảnh:</p>
+
+                        <div class="field" align="left">
+                            <span class="btn btn-success fileinput-button" style="padding: 0.5rem 1.3rem;">
+                                <i class="glyphicon glyphicon-camera"></i>
+                                <span></span>
+                                <input type="file" id="files" name="files[]" multiple />
+                            </span>
+                        </div>
+                        <div id="upload_img-wrap"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <p for="" class="thep">Mô tả tài sản cầm cố:</p>
+                        <textarea class="form-content form-control valid" rows="10" placeholder="" name="description" id="description" required=""></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+

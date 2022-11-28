@@ -8,6 +8,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 {
 
     [Route("api/[controller]")]
+    [ApiController]
     public class ItemController : Controller
     {
         private readonly IItemService _itemService;
@@ -31,8 +32,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DetailItem(int IdItem)
         {
-            var result = await _itemService.DetailsItem(IdItem);
-            ////ViewBag.maloaisach = result.MaLoai;
+            var result = await _itemService.DetailsItemAsync(IdItem);
             return View(result);
             
         }

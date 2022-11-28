@@ -6,10 +6,14 @@ namespace _10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels
 {
 	public class UserSession
 	{
-      
+
+        public int MaKh { get; set; }
+        public string TenKh { get; set; }
         public string Email { get; set; }
-        public string FullName { get; set; }
-        public string UserId { get; set; }
+        public DateTime? NgaySinh { get; set; }
+        public string SoDt { get; set; }
+        public string Cmnd { get; set; }
+        public string DiaChi { get; set; }
     }
 
 }

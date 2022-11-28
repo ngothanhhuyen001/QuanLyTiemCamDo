@@ -19,13 +19,18 @@ namespace _10DHTH.QuanLyTiemCamDo.DataAccess.Models
         {
         }
 
-        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Cthd> Cthds { get; set; }
+        public virtual DbSet<DichVu> DichVus { get; set; }
+        public virtual DbSet<HinhThucDongLai> HinhThucDongLais { get; set; }
+        public virtual DbSet<HoaDon> HoaDons { get; set; }
+        public virtual DbSet<HopDong> HopDongs { get; set; }
+        public virtual DbSet<KhachHang> KhachHangs { get; set; }
+        public virtual DbSet<LichSuDongLai> LichSuDongLais { get; set; }
+        public virtual DbSet<LoaiTaiSan> LoaiTaiSans { get; set; }
+        public virtual DbSet<NhanVien> NhanViens { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Status> Statuses { get; set; }
-        public virtual DbSet<Type> Types { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UsersDept> UsersDepts { get; set; }
+        public virtual DbSet<TaiSan> TaiSans { get; set; }
+        public virtual DbSet<TrangThai> TrangThais { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,160 +43,284 @@ namespace _10DHTH.QuanLyTiemCamDo.DataAccess.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
-            modelBuilder.Entity<Item>(entity =>
+            modelBuilder.Entity<Cthd>(entity =>
             {
-                entity.HasKey(e => e.IdItem);
+                entity.HasKey(e => new { e.MaHoaDon, e.MaTaiSan });
 
-                entity.ToTable("item");
+                entity.ToTable("CTHD");
 
-                entity.Property(e => e.IdItem).HasColumnName("id_item");
+                entity.HasOne(d => d.MaHoaDonNavigation)
+                    .WithMany(p => p.Cthds)
+                    .HasForeignKey(d => d.MaHoaDon)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CTHD_HoaDon");
 
-                entity.Property(e => e.Description).HasColumnName("description");
+                entity.HasOne(d => d.MaTaiSanNavigation)
+                    .WithMany(p => p.Cthds)
+                    .HasForeignKey(d => d.MaTaiSan)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CTHD_TaiSan");
+            });
 
-                entity.Property(e => e.IdStatus).HasColumnName("id_status");
+            modelBuilder.Entity<DichVu>(entity =>
+            {
+                entity.HasKey(e => e.MaPhiDv);
 
-                entity.Property(e => e.IdType).HasColumnName("id_type");
+                entity.ToTable("DichVu");
 
-                entity.Property(e => e.Img).HasColumnName("img");
+                entity.Property(e => e.MaPhiDv).HasColumnName("MaPhiDV");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
+                entity.Property(e => e.PhiDv).HasColumnName("PhiDV");
 
-                entity.Property(e => e.Nsx).HasColumnName("NSX");
+                entity.Property(e => e.TenDv)
+                    .HasMaxLength(50)
+                    .HasColumnName("TenDV");
+            });
 
-                entity.Property(e => e.Price).HasColumnName("price");
+            modelBuilder.Entity<HinhThucDongLai>(entity =>
+            {
+                entity.HasKey(e => e.MaHtl);
 
-                entity.HasOne(d => d.IdStatusNavigation)
-                    .WithMany(p => p.Items)
-                    .HasForeignKey(d => d.IdStatus)
-                    .HasConstraintName("FK_item_status");
+                entity.ToTable("HinhThucDongLai");
 
-                entity.HasOne(d => d.IdTypeNavigation)
-                    .WithMany(p => p.Items)
-                    .HasForeignKey(d => d.IdType)
-                    .HasConstraintName("FK_item_type");
+                entity.Property(e => e.MaHtl).HasColumnName("MaHTL");
+
+                entity.Property(e => e.TenHinhThuc).HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<HoaDon>(entity =>
+            {
+                entity.HasKey(e => e.MaHoaDon);
+
+                entity.ToTable("HoaDon");
+
+                entity.Property(e => e.MaKh).HasColumnName("MaKH");
+
+                entity.Property(e => e.MaNv).HasColumnName("MaNV");
+
+                entity.Property(e => e.NgayBan).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MaKhNavigation)
+                    .WithMany(p => p.HoaDons)
+                    .HasForeignKey(d => d.MaKh)
+                    .HasConstraintName("FK_HoaDon_KhachHang");
+
+                entity.HasOne(d => d.MaNvNavigation)
+                    .WithMany(p => p.HoaDons)
+                    .HasForeignKey(d => d.MaNv)
+                    .HasConstraintName("FK_HoaDon_NhanVien");
+            });
+
+            modelBuilder.Entity<HopDong>(entity =>
+            {
+                entity.HasKey(e => e.MaHopDong);
+
+                entity.ToTable("HopDong");
+
+                entity.Property(e => e.MaHtl).HasColumnName("MaHTL");
+
+                entity.Property(e => e.MaKh).HasColumnName("MaKH");
+
+                entity.Property(e => e.MaNv).HasColumnName("MaNV");
+
+                entity.Property(e => e.NgayKt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("NgayKT");
+
+                entity.Property(e => e.NgayLap).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MaHtlNavigation)
+                    .WithMany(p => p.HopDongs)
+                    .HasForeignKey(d => d.MaHtl)
+                    .HasConstraintName("FK_HopDong_HTL");
+
+                entity.HasOne(d => d.MaKhNavigation)
+                    .WithMany(p => p.HopDongs)
+                    .HasForeignKey(d => d.MaKh)
+                    .HasConstraintName("FK_HopDong_KhachHang");
+
+                entity.HasOne(d => d.MaNvNavigation)
+                    .WithMany(p => p.HopDongs)
+                    .HasForeignKey(d => d.MaNv)
+                    .HasConstraintName("FK_HopDong_NhanVien");
+
+                entity.HasOne(d => d.MaTaiSanNavigation)
+                    .WithMany(p => p.HopDongs)
+                    .HasForeignKey(d => d.MaTaiSan)
+                    .HasConstraintName("FK_HopDong_TaiSan");
+
+                entity.HasOne(d => d.MaTrangThaiNavigation)
+                    .WithMany(p => p.HopDongs)
+                    .HasForeignKey(d => d.MaTrangThai)
+                    .HasConstraintName("FK_HopDong_TrangThai");
+            });
+
+            modelBuilder.Entity<KhachHang>(entity =>
+            {
+                entity.HasKey(e => e.MaKh);
+
+                entity.ToTable("KhachHang");
+
+                entity.Property(e => e.MaKh).HasColumnName("MaKH");
+
+                entity.Property(e => e.Cmnd)
+                    .HasMaxLength(15)
+                    .HasColumnName("CMND")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.DiaChi).HasMaxLength(50);
+
+                entity.Property(e => e.Email).HasMaxLength(50);
+
+                entity.Property(e => e.Mkhash).HasColumnName("MKHash");
+
+                entity.Property(e => e.Mksalt).HasColumnName("MKSalt");
+
+                entity.Property(e => e.NgaySinh).HasColumnType("datetime");
+
+                entity.Property(e => e.SoDt)
+                    .HasMaxLength(11)
+                    .HasColumnName("SoDT")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.TenKh)
+                    .HasMaxLength(50)
+                    .HasColumnName("TenKH");
+            });
+
+            modelBuilder.Entity<LichSuDongLai>(entity =>
+            {
+                entity.HasKey(e => e.MaLichSu);
+
+                entity.ToTable("LichSuDongLai");
+
+                entity.Property(e => e.NgayDongLai).HasColumnType("datetime");
+
+                entity.Property(e => e.TienDv).HasColumnName("TienDV");
+
+                entity.HasOne(d => d.MaHopDongNavigation)
+                    .WithMany(p => p.LichSuDongLais)
+                    .HasForeignKey(d => d.MaHopDong)
+                    .HasConstraintName("FK_LichSuDongLai_HopDong");
+
+                entity.HasOne(d => d.MaTrangThaiNavigation)
+                    .WithMany(p => p.LichSuDongLais)
+                    .HasForeignKey(d => d.MaTrangThai)
+                    .HasConstraintName("FK_LichSuDongLai_TrangThai");
+            });
+
+            modelBuilder.Entity<LoaiTaiSan>(entity =>
+            {
+                entity.HasKey(e => e.MaLoai);
+
+                entity.ToTable("LoaiTaiSan");
+
+                entity.Property(e => e.MaPhiDv).HasColumnName("MaPhiDV");
+
+                entity.Property(e => e.TenLoai).HasMaxLength(50);
+
+                entity.HasOne(d => d.MaPhiDvNavigation)
+                    .WithMany(p => p.LoaiTaiSans)
+                    .HasForeignKey(d => d.MaPhiDv)
+                    .HasConstraintName("FK_LoaiTaiSan_DichVu");
+            });
+
+            modelBuilder.Entity<NhanVien>(entity =>
+            {
+                entity.HasKey(e => e.MaNv);
+
+                entity.ToTable("NhanVien");
+
+                entity.Property(e => e.MaNv).HasColumnName("MaNV");
+
+                entity.Property(e => e.Cmmn)
+                    .HasMaxLength(12)
+                    .IsUnicode(false)
+                    .HasColumnName("CMMN");
+
+                entity.Property(e => e.DiaChi).HasMaxLength(50);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Mkhash).HasColumnName("MKHash");
+
+                entity.Property(e => e.Mksalt).HasColumnName("MKSalt");
+
+                entity.Property(e => e.NgaySinh).HasColumnType("datetime");
+
+                entity.Property(e => e.Sdt)
+                    .HasMaxLength(11)
+                    .IsUnicode(false)
+                    .HasColumnName("SDT");
+
+                entity.Property(e => e.TenNv)
+                    .HasMaxLength(50)
+                    .HasColumnName("TenNV");
             });
 
             modelBuilder.Entity<RefreshToken>(entity =>
             {
+                entity.HasKey(e => e.MaToken);
+
                 entity.ToTable("RefreshToken");
 
-                entity.Property(e => e.Created).HasColumnType("datetime");
+                entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
-                entity.Property(e => e.Expires).HasColumnType("datetime");
+                entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
+                entity.Property(e => e.NgayHetHan).HasColumnType("datetime");
 
-                entity.HasOne(d => d.IdUserNavigation)
+                entity.Property(e => e.NgayTao).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MaKhNavigation)
                     .WithMany(p => p.RefreshTokens)
-                    .HasForeignKey(d => d.IdUser)
-                    .HasConstraintName("FK_RefreshTokens_users");
+                    .HasForeignKey(d => d.MaKh)
+                    .HasConstraintName("FK_RefreshTokens_KhachHang");
+
+                entity.HasOne(d => d.MaNvNavigation)
+                    .WithMany(p => p.RefreshTokens)
+                    .HasForeignKey(d => d.MaNv)
+                    .HasConstraintName("FK_RefreshTokens_NhanVien");
             });
 
-            modelBuilder.Entity<Role>(entity =>
+            modelBuilder.Entity<TaiSan>(entity =>
             {
-                entity.HasKey(e => e.IdRole);
+                entity.HasKey(e => e.MaTaiSan);
 
-                entity.ToTable("role");
+                entity.ToTable("TaiSan");
 
-                entity.Property(e => e.IdRole).HasColumnName("id_role");
+                entity.Property(e => e.NgayThanhLy).HasColumnType("datetime");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
+                entity.Property(e => e.Nsx)
+                    .HasMaxLength(20)
+                    .HasColumnName("NSX");
+
+                entity.Property(e => e.TenTaiSan).HasMaxLength(50);
+
+                entity.Property(e => e.ThuongHieu).HasMaxLength(50);
+
+                entity.HasOne(d => d.MaLoaiNavigation)
+                    .WithMany(p => p.TaiSans)
+                    .HasForeignKey(d => d.MaLoai)
+                    .HasConstraintName("FK_TaiSan_LoaiTaiSan");
+
+                entity.HasOne(d => d.MaTrangThaiNavigation)
+                    .WithMany(p => p.TaiSans)
+                    .HasForeignKey(d => d.MaTrangThai)
+                    .HasConstraintName("FK_TaiSan_TrangThai");
             });
 
-            modelBuilder.Entity<Status>(entity =>
+            modelBuilder.Entity<TrangThai>(entity =>
             {
-                entity.HasKey(e => e.IdStatus);
+                entity.HasKey(e => e.MaTrangThai);
 
-                entity.ToTable("status");
+                entity.ToTable("TrangThai");
 
-                entity.Property(e => e.IdStatus).HasColumnName("id_status");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Type>(entity =>
-            {
-                entity.HasKey(e => e.IdType);
-
-                entity.ToTable("type");
-
-                entity.Property(e => e.IdType).HasColumnName("id_type");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("created at");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.UpdateAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("update at");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.IdUser);
-
-                entity.ToTable("users");
-
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
-
-                entity.Property(e => e.Address)
-                    .HasMaxLength(255)
-                    .HasColumnName("address");
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(255)
-                    .HasColumnName("email");
-
-                entity.Property(e => e.IdDept).HasColumnName("id_dept");
-
-                entity.Property(e => e.IdRole).HasColumnName("id_role");
-
-                entity.Property(e => e.IsActive)
-                    .HasColumnName("is_active")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Phone)
-                    .HasMaxLength(11)
-                    .IsUnicode(false)
-                    .HasColumnName("phone");
-
-                entity.Property(e => e.Remember).HasColumnName("remember");
-
-                entity.HasOne(d => d.IdDeptNavigation)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.IdDept)
-                    .HasConstraintName("FK_users_usersdept");
-
-                entity.HasOne(d => d.IdRoleNavigation)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.IdRole)
-                    .HasConstraintName("FK_users_role");
-            });
-
-            modelBuilder.Entity<UsersDept>(entity =>
-            {
-                entity.HasKey(e => e.IdDept)
-                    .HasName("PK_usersdept");
-
-                entity.ToTable("users_dept");
-
-                entity.Property(e => e.IdDept).HasColumnName("id_dept");
-
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
-
-                entity.Property(e => e.TotalDept).HasColumnName("total_dept");
+                entity.Property(e => e.TenTrangThai).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

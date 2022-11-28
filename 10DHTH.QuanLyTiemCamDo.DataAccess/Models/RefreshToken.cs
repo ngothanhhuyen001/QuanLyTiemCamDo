@@ -7,12 +7,14 @@ namespace _10DHTH.QuanLyTiemCamDo.DataAccess.Models
 {
     public partial class RefreshToken
     {
-        public int Id { get; set; }
-        public int? IdUser { get; set; }
+        public int MaToken { get; set; }
+        public int? MaKh { get; set; }
+        public int? MaNv { get; set; }
         public string Token { get; set; }
-        public DateTime? Created { get; set; }
-        public DateTime? Expires { get; set; }
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayHetHan { get; set; }
 
-        public virtual User IdUserNavigation { get; set; }
+        public virtual KhachHang MaKhNavigation { get; set; }
+        public virtual NhanVien MaNvNavigation { get; set; }
     }
 }

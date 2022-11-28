@@ -1,0 +1,152 @@
+﻿@*@model string*@
+@{
+    ViewData["Title"] = "Main";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+
+    <link href="~/css/StepMaker/MultiStep.min.css" rel="stylesheet" />
+    <link href="~/css/StepMaker/MultiStep-theme.min.css" rel="stylesheet" />
+    <link href="~/css/MyCss/fontawesome.css" rel="stylesheet" />
+    <link href="~/css/mycss/dataload.css" rel="stylesheet" />
+    <link href="~/css/StepMaker/step.css" rel="stylesheet" />
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+}
+@section Footer{
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/StepMaker/ProcessStep.js"></script>
+    <script>
+        $(function () {
+            $("#slider-range-max").slider({
+                range: "max",
+                min: 1,
+                max: 100,
+                step: 1,
+                values: 1,
+                slide: function (event, ui) {        
+                    $("#amount").val(ui.value + ",000,000");
+                }
+            });
+            $("#amount").val($("#slider-range-max").slider("value") + ",000,000");
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                        filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i]
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function (e) {
+                            var file = e.target; 
+                            $("<span class=\"pip\">" +
+                                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                                "<br/><span class=\"remove\"> <i class='fa fa-trash' aria-hidden='true'  > </i></span>" +
+                                "</span>").insertAfter("#upload_img-wrap");
+                            $(".remove").click(function () {
+                                $(this).parent(".pip").remove();
+                            });
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                    console.log(files);
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
+    </script>
+}
+<section class="bg0 p-t-80 p-b-60">
+    <div class="container">
+        <div class="row">
+        </div>
+        <div id="process-step" class="multi-step container-fluid" data-id="process-step" tabindex="-1" role="dialog" aria-labelledby="process-stepTitle" aria-hidden="true">
+            <div class="multi-step" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding: 1rem 1rem 0rem 1rem">
+                        <h5 class="modal-title" id="process-stepLongTitle"></h5>
+
+                        <!--Process Stepper Status-->
+                            <div class="modal-steps" >
+                            <!--Step 1-->
+                            <div class="step current" data-step="1" data-step-skip="false">
+                                    <span class="number">1.</span>
+                                <label class="tatile" style="color: #0092E0 " data-type="text"> Thiết Lập Khoản Vay</label>
+                                <div class="dot" > </div>
+                            </div>
+                            <!--Step 2-->
+                            <div class="step" data-step="2" data-step-skip="false">
+                                    <span class="number">2.</span>
+                                    <label class="tatile" data-type="text">Thông Tin Khách Hàng</label>
+                                <div class="dot" data-type="dot"></div>
+                            </div>
+                            <!--Step 3-->
+                            <div class="step" data-step="3" data-step-skip="false">
+                                    <span class="number">3.</span>
+                                    <label class="tatile " data-type="text">Hoàn Tất Khoản Vay</label>
+                                <div class="dot" data-type="dot"></div>
+                            </div>
+                               
+                        </div>
+                          
+                        <!--End Process Stepper Status-->
+                        <!--Content -->
+                        <div class="modal-body" style="width: 100%; padding: 0px!important;    border: 1px solid #c9c9c9;    border-radius: 5px;   margin: 20px 3px 20px 10px;">
+
+                            <!--Start Form With Step 1-->
+                            <div class="step-content-container" style="width:100%">
+                                  @{await Html.RenderPartialAsync("~/Views/CamDoOnline/PartialViews/_ThietLapKhoanVay.cshtml");}
+                            </div>
+
+                            <!--Button-->
+                            <div class="buttons d-flex" style="justify-content: center;    margin: 25px 1px 29px 1px;">
+                                <button id="btnPrev" type="button" class="btn btn-sm prev-button d-none" style="padding: 0 10px 0 10px">
+                                    <div class="ml-4">
+                                        <img style="width:30px" src="/Images/Icons/prev-button-icon.png" />
+                                    </div>
+                                    <div class="text" style="width:60px">&ensp; Back</div>
+                                </button>
+                                <button id="btnNext" type="button" class="btn btn-sm next-button" style="padding: 0 10px 0 20px">
+                                    <div class="text" style="width:45px">Next &ensp;</div>
+                                    <div class="ml-4">
+                                        <img style="width:30px" src="/Images/Icons/next-button-icon.png" />
+                                    </div>
+                                </button>
+                                <button id="btnCancel" type="button" class="btn btn-sm cancel-button" data-toggle="modal" data-target="#exampleModal">
+                                    <div class="text" style="width:60px">Cancel &ensp;</div>
+                                    <div class="ml-4">
+                                        <img style="width:25px" src="/Images/Icons/cancel-button-icon.png" />
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" id="btnCloseIDL" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you want to leave app?
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnYesIDL" type="button" class="btn btn-secondary" style="background-color:#0092e0">Yes</button>
+                            <button id="btnNoIDL" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

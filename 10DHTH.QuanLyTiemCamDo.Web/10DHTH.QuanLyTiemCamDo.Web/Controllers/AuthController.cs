@@ -9,7 +9,7 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
 {
 
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
     public class AuthController : Controller
     {
         private readonly IApiAuthService _apiAuthService;

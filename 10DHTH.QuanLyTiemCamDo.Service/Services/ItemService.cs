@@ -24,12 +24,12 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
         {
             _context = context;
         }
-        public async Task<PagedResult<Item>> GetPagingItems(PagingRequestBase request)
+        public async Task<PagedResult<TaiSan>> GetPagingItems(PagingRequestBase request)
         {
-            int totalRow = await _context.Items.CountAsync();
+            int totalRow = await _context.TaiSans.CountAsync();
 
-            var items = await _context.Items.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-            var pagedResult = new PagedResult<Item>()
+            var items = await _context.TaiSans.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+            var pagedResult = new PagedResult<TaiSan>()
             {
                 Code = 200,
                 Message = "Login Success!",
@@ -45,46 +45,46 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Services
 
         public async Task<List<TypeViewModel>> GetAllCategoryAsync()
         {
-            var type = await _context.Types.Select(x => new TypeViewModel()
+            var type = await _context.LoaiTaiSans.Select(x => new TypeViewModel()
             {
-             IdType=x.IdType,
-             Name=x.Name,
+                MaLoai = x.MaLoai,
+                TenLoai = x.TenLoai
             }).ToListAsync();
             return type;
 
         }
-        public async Task<MyResponseList<Item>> GetItemByIdTypeAsync(int id)
+        public async Task<ResultList<TaiSan>> GetItemByIdTypeAsync(int id)
         {
-            var type = await _context.Items.Where(x=>x.IdType==id).ToListAsync();
-            return new MyResponseList<Item>
+            var type = await _context.TaiSans.Where(x => x.MaLoai == id).ToListAsync();
+            return new ResultList<TaiSan>
             {
-                Data =type,
+                Data = type,
                 Message = "ok",
                 Code = 200,
             };
         }
-        public async Task<MyResponseList<Item>> SearchItemAsync(string name)
+        public async Task<ResultList<TaiSan>> SearchItemAsync(string name)
         {
-            var result = await _context.Items.Where(t => t.Name.Contains(name)).ToListAsync();
-            return new MyResponseList<Item>
+            var result = await _context.TaiSans.Where(t => t.TenTaiSan.Contains(name)).ToListAsync();
+            return new ResultList<TaiSan>
             {
                 Data = result,
                 Message = "ok",
                 Code = 200,
             };
         }
-        public async Task<ApiResult<Item>> DetailsItem(int id)
+        public async Task<ResultObject<TaiSan>> DetailsItemAsync(int id)
         {
-            var result = await _context.Items.FindAsync(id);
-            if(result==null)
+            var result = await _context.TaiSans.FindAsync(id);
+            if (result == null)
             {
-                return new ApiResult<Item>
+                return new ResultObject<TaiSan>
                 {
                     Code = 404,
                     Message = "Item is not exits",
                 };
-            }   
-            return new ApiResult<Item>
+            }
+            return new ResultObject<TaiSan>
             {
                 Data = result,
                 Message = "ok",

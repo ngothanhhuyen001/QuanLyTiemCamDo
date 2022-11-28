@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace _10DHTH.QuanLyTiemCamDo.Service.Interfaces
 {
     public interface IItemService
-	{
+    {
         /// <summary>
         /// Get All Item
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<PagedResult<Item>> GetPagingItems(PagingRequestBase request);
+        Task<PagedResult<TaiSan>> GetPagingItems(PagingRequestBase request);
         /// <summary>
         /// Get All Type
         /// </summary>
@@ -28,19 +28,19 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<MyResponseList<Item>> GetItemByIdTypeAsync(int id);
+        Task<ResultList<TaiSan>> GetItemByIdTypeAsync(int id);
         /// <summary>
         /// Search
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<MyResponseList<Item>> SearchItemAsync(string name);
+        Task<ResultList<TaiSan>> SearchItemAsync(string name);
         /// <summary>
         /// Details Items
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ApiResult<Item>> DetailsItem(int id);
+        Task<ResultObject<TaiSan>> DetailsItemAsync(int id);
 
     }
 }

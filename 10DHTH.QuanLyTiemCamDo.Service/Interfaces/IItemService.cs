@@ -41,6 +41,23 @@ namespace _10DHTH.QuanLyTiemCamDo.Service.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<ResultObject<TaiSan>> DetailsItemAsync(int id);
-
+        /// <summary>
+        /// Get list item
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ItemInput>> GetAll();
+        /// <summary>
+        /// Update item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="itemInput"></param>
+        /// <returns></returns>
+        Task<ItemInput> UpdateItem(int id, TaiSan item);
+        /// <summary>
+        /// Delete item 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TaiSan> GetByIdItem(int id);
     }
 }

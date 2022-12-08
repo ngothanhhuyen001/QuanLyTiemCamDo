@@ -1,0 +1,150 @@
+﻿@model _10DHTH.QuanLyTiemCamDo.DataAccess.Models.KhachHang
+@{
+    ViewData["Create"] = "Create";
+    Layout = "~/Areas/Admin/Views/shared/_Layout.cshtml";
+}
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TenKh" class="control-label"></label>
+                <input asp-for="TenKh" class="form-control" />
+                <span asp-validation-for="TenKh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgaySinh" class="control-label"></label>
+                <input asp-for="NgaySinh" class="form-control" />
+                <span asp-validation-for="NgaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoDt" class="control-label"></label>
+                <input asp-for="SoDt" class="form-control" />
+                <span asp-validation-for="SoDt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cmnd" class="control-label"></label>
+                <input asp-for="Cmnd" class="form-control" />
+                <span asp-validation-for="Cmnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiaChi" class="control-label"></label>
+                <input asp-for="DiaChi" class="form-control" />
+                <span asp-validation-for="DiaChi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>*@
+
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Tạo Người Dùng</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form" data-parsley-validate>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group mandatory">
+                                        <label for="hoten-column" class="form-label">Họ Tên Khách Hàng</label>
+                                        <input type="text"
+                                               id="hoten-column"
+                                               class="form-control"
+                                               name="hoten-column"
+                                               data-parsley-required="true" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group mandatory">
+                                        <label for="email-id-column" class="form-label">Email</label>
+                                        <input type="email"
+                                               id="email-id-column"
+                                               class="form-control"
+                                               name="email-id-column"
+                                               data-parsley-required="true" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="ngaysinh-column" class="form-label">Ngày Sinh</label>
+                                        <input type="date"
+                                               id="ngaysinh-column"
+                                               class="form-control"
+                                               name="ngaysinh-column" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group mandatory">
+                                        <label for="sdt-floating" class="form-label">Số Điện Thoại </label>
+                                        <input type="number"
+                                               id="sdt-column"
+                                               class="form-control"
+                                               name="sdt-colomn"
+                                               data-parsley-required="true" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group mandatory">
+                                        <label for="cmnd-column" class="form-label">CMND</label>
+                                        <input type="number"
+                                               id="cmnd-column"
+                                               class="form-control"
+                                               name="cmnd-column"
+                                               data-parsley-required="true" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="diachi-column" class="form-label">Địa Chỉ</label>
+                                        <input type="text"
+                                               id="dia-chi-column"
+                                               class="form-control"
+                                               name="diachi-column"
+                                               data-parsley-required="true" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button type="submit"
+                                            class="btn btn-primary me-1 mb-1">
+                                        Submit
+                                    </button>
+                                    <button class="btn btn-light-secondary me-1 mb-1">
+                                        <a asp-action="Index">Cancel</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+ @section Footer{
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/app.js"></script>
+
+    <script src="assets/extensions/jquery/jquery.min.js"></script>
+    <script src="assets/extensions/parsleyjs/parsley.min.js"></script>
+    <script src="assets/js/pages/parsley.js"></script>
+ }

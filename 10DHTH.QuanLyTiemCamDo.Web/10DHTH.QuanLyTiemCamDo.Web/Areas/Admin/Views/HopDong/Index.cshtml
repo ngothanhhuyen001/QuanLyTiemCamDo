@@ -1,0 +1,93 @@
+﻿@model List<_10DHTH.QuanLyTiemCamDo.DataAccess.ViewModels.HopDongInput>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<section class="section">
+    <div class="card">
+        <div class="card-header" style="text-align: right">
+            <input id="myInput" type="text" placeholder="Search..">
+            <button class="btn btn-outline-primary me-1 mb-1">
+                <a asp-action="Create">Create New</a>
+            </button>
+        </div>
+            <div class="card-body">
+                <table class="table" id="table1">
+                    <thead>
+                    <tr>
+                        <th>Tên Khách Hàng</th>
+                        <th>Tên Nhân Viên</th>
+                        <th>Tài Sản</th>
+                        <th>Ngày Lập</th>
+                        <th>Thời Gian Cầm</th>
+                        <th>Số Tiền Cầm</th>
+                        <th>Tỉ Lệ Lãi</th>
+                        <th>Trạng Thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenKh)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenNv)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenTaiSan)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NgayLap)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ThoiGianCam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoTienCam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TiLeLai)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenTrangThai)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.MaHopDong"><i class='bi bi-pencil-square'></i></a> 
+            @*                <a asp-action="Details" asp-route-id="@item.MaHopDong">Details</a> |
+            *@                <a asp-action="Delete" asp-route-id="@item.MaHopDong"><i class='bi bi-trash'></i></a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section Header{
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/css/pages/datatables.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+}
+    @section Footer{
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#table1 tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}

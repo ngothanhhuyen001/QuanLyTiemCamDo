@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Views\Error\**" />
+    <Content Remove="Areas\Admin\Views\Error\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\Error\**" />
+    <None Remove="Areas\Admin\Views\Error\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Views\Error\" />
   </ItemGroup>
 
@@ -28,6 +36,17 @@
   <ItemGroup>
     <ProjectReference Include="..\..\10DHTH.QuanLyTiemCamDo.DataAccess\10DHTH.QuanLyTiemCamDo.DataAccess.csproj" />
     <ProjectReference Include="..\..\10DHTH.QuanLyTiemCamDo.Service\10DHTH.QuanLyTiemCamDo.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\Shared\Error.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

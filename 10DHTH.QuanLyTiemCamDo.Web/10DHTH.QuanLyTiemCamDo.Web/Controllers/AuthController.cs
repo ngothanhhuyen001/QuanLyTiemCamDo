@@ -21,7 +21,6 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-
             return View();
         }
         [Route("~/login")]

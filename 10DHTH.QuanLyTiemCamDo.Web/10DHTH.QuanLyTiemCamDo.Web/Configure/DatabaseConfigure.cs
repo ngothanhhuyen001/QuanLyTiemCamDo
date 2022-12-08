@@ -17,7 +17,8 @@ namespace _10DHTH.QuanLyTiemCamDo.Web.Configure
             services.AddScoped<IApiAuthService, ApiAuthService>();
             services.AddScoped<IItemService, ItemService>();
 
-
+            services.AddScoped<IHopDongService, HopDongService>();
+            services.AddScoped<INguoiDungService, NguoiDungService>();
             //DI
 
             //DI

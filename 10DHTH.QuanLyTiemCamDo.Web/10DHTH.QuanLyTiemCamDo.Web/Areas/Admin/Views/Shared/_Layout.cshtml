@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="~/assets/css/main/app.css" />
+    <link rel="stylesheet" href="~/assets/css/main/app-dark.css" />
+    <link rel="stylesheet" href="~/assets/css/style.css" />
+    <link rel="shortcut icon" href="~/assets/images/logo/favicon.svg" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/assets/images/logo/favicon.png" type="image/png" />
+    @RenderSection("Header", required: false)
+</head>
+
+<body class="theme">
+    <div id="app">
+        <!-- SideBar -->
+        <partial name="PartialViews/_SideBar" />
+        <!-- End SideBar -->
+
+        <div id="main" class="layout-navbar">
+            <!-- Header -->
+            <partial name="PartialViews/_Header" />
+            <!-- End Header -->
+            <div id="main-content" class="pt-0">
+                <!-- Content -->
+                @RenderBody()
+                <!-- End Content -->
+            </div>
+
+            <!-- Footer -->
+            <footer class="px-4">
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2022</p>
+                    </div>
+                    <div class="float-end">
+                        <p>
+                            Crafted with HLH team
+                        </p>
+                    </div>
+                </div>
+            </footer>
+            <!-- End Footer -->
+        </div>
+    </div>
+    <script src="~/assets/js/bootstrap.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Footer", required: false)
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+                var tooltipTriggerList = [].slice.call(
+                    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                );
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            },
+            false
+        );
+    </script>
+</body>
+</html>

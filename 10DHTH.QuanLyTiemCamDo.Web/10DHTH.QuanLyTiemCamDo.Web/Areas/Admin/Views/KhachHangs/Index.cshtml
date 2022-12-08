@@ -1,0 +1,140 @@
+﻿@model List<_10DHTH.QuanLyTiemCamDo.DataAccess.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/shared/_Layout.cshtml";
+}
+<h1>Index</h1>
+
+<section class="section">
+    <div class="card">
+        <div class="card-header" style="text-align: right">
+            <input id="myInput" type="text" placeholder="Search..">
+            <button class="btn btn-outline-primary me-1 mb-1">
+                <a asp-action="Create" >Create New</a>
+            </button>
+            
+        </div>
+        <div class="card-body">
+            <table class="table" id="table1">
+                <thead>
+                    <tr>
+                        <th>
+                            Tên Khách Hàng
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Ngày Sinh
+                        </th>
+                        <th>
+                            Số Điện Thoại
+                        </th>
+                        <th>
+                            CMND
+                        </th>
+                        <th>
+                            Địa Chỉ
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TenKh)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NgaySinh)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SoDt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cmnd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DiaChi)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.MaKh"><i class='bi bi-pencil-square'></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.MaKh"><i class='bi bi-trash'></i></a>
+                                @*<div class="d-flex gap-2 justify-content-center"><a href='#' onclick="modalDelete(@item.MaKh)"><i class='bi bi-trash'></i></a></div>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<!-- Basic Tables end -->
+@*
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="model-delete"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Xóa Người Dùng
+                </h5>
+                <button type="button"
+                        data-bs-dismiss="modal"
+                        class="close"
+                        aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">
+                            Bạn có chắc chắn xóa người dùng này không? <span asp-route-id="MaKh"></span>?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btn-delete" class="btn btn-primary">Đồng Ý</button>
+                <button type="button"
+                        data-bs-dismiss="modal"
+                        class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Hủy Bỏ</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+@section Header{
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/css/pages/datatables.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+}
+    @section Footer{
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#table1 tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}

@@ -59,6 +59,8 @@ namespace _10DHTH.QuanLyTiemCamDo.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Auth}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute("Default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
